@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypnotherapy Services | Testimonials</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <h1>Client Testimonials</h1>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="testimonials.html">Testimonials</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <section>
+        <h2>What Our Clients Say</h2>
+        <p>"Transformational! My stress and anxiety have been reduced significantly."</p>
+        <p>"A life-changing experience. I feel more confident and peaceful."</p>
+    </section>
+
+    <!-- Chatbot Section -->
+    <div id="chatbot">
+        <div class="chatbot-header">
+            <h2>Chatbot</h2>
+            <span onclick="closeChatbot()">×</span>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <p class="bot-message">Hello! How can I assist you today?</p>
+        </div>
+        <input type="text" id="userInput" placeholder="Type your message here..." onkeydown="if(event.key === 'Enter') sendMessage()">
+    </div>
+    <button class="chatbot-button" onclick="openChatbot()">Chat with us</button>
+
+    <footer>
+        <p>&copy; 2024 Hypnotherapy Services. All rights reserved.</p>
+    </footer>
+
+    <script src="js/chatbot.js"></script>
+</body>
+</html>

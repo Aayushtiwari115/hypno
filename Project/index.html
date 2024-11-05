@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hypnotherapy Services | Home</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <header>
+        <div class="logo">IHT</div>
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="services.html">Services</a>
+            <a href="testimonials.html">Testimonials</a>
+            <a href="contact.html">Contact</a>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <h2>Transform Your Mind, Transform Your Life</h2>
+        <p>Discover the power of hypnotherapy for personal growth and healing.</p>
+        <button onclick="openModal()">Get Started</button>
+    </div>
+
+    <section class="features">
+        <div class="feature">
+            <img src="images/stress-relief.jpg" alt="Stress Relief" />
+            <h3>Stress Relief</h3>
+            <p>Learn techniques to manage and reduce stress effectively.</p>
+        </div>
+        <div class="feature">
+            <img src="images/sleep-improvement.jpg" alt="Sleep Improvement" />
+            <h3>Sleep Improvement</h3>
+            <p>Overcome insomnia and improve your sleep quality.</p>
+        </div>
+        <div class="feature">
+            <img src="images/habit-control.jpg" alt="Habit Control" />
+            <h3>Habit Control</h3>
+            <p>Break free from negative habits and cultivate positive ones.</p>
+        </div>
+    </section>
+
+    <section class="about">
+        <h2>About Us</h2>
+        <p>At Hypnotherapy Services, we provide a safe and supportive environment to explore the transformative power of hypnosis. Our certified practitioners are dedicated to helping you achieve your goals and improve your well-being.</p>
+    </section>
+
+    <!-- Booking Section (hidden for non-logged-in users) -->
+    <div id="bookingSection" style="display:none;">
+        <h2>Book Your Session</h2>
+        <form id="bookingForm">
+            <label for="service">Choose a Service:</label>
+            <select id="service" required>
+                <option value="stress-relief">Stress Relief</option>
+                <option value="sleep-improvement">Sleep Improvement</option>
+                <option value="habit-control">Habit Control</option>
+            </select>
+
+            <label for="date">Preferred Date:</label>
+            <input type="date" id="date" required>
+
+            <label for="time">Preferred Time:</label>
+            <input type="time" id="time" required>
+
+            <button type="submit">Book Now</button>
+        </form>
+    </div>
+
+    <!-- New Post Section -->
+    <section class="posts">
+        <h2>Community Posts</h2>
+        <form id="postForm" onsubmit="addPost(event)">
+            <label for="postTitle">Post Title:</label>
+            <input type="text" id="postTitle" required>
+
+            <label for="postContent">Post Content:</label>
+            <textarea id="postContent" required></textarea>
+
+            <button type="submit">Submit Post</button>
+        </form>
+        <div id="postList"></div>
+    </section>
+
+    <!-- Popup Form Modal -->
+    <div id="popupForm" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Get Started</h2>
+            <form id="contactForm" onsubmit="submitContactForm(event)">
+                <label for="name">Name:</label>
+                <input type="text" id="name" name="name" required>
+
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+
+                <label for="message">Message:</label>
+                <textarea id="message" name="message" required></textarea>
+
+                <button type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Chatbot Section -->
+    <div id="chatbot">
+        <div class="chatbot-header">
+            <h2>Chatbot</h2>
+            <span onclick="closeChatbot()">×</span>
+        </div>
+        <div class="chatbot-messages" id="chatbot-messages">
+            <p class="bot-message">Hello! How can I assist you today?</p>
+        </div>
+        <input type="text" id="userInput" placeholder="Type your message here..." onkeydown="if(event.key === 'Enter') sendMessage()">
+    </div>
+    <button class="chatbot-button" onclick="openChatbot()">Chat with us</button>
+
+    <!-- Authentication Buttons -->
+    <button id="loginBtn" onclick="openIdentityWidget()">Login / Sign Up</button>
+    <button id="logoutBtn" onclick="logout()" style="display:none;">Logout</button>
+
+    <footer>
+        <p>&copy; 2024 Hypnotherapy Services. All rights reserved.</p>
+    </footer>
+
+    <script src="https://identity.netlify.com/v1/netlify-identity-widget.js"></script>
+    <script src="js/chatbot.js"></script>
+    <script>
+        // Initialize Netlify Identity
+        netlifyIdentity.init();
+
+        // Function to open Identity Widget
+        function openIdentityWidget() {
+            netlifyIdentity.open();
+        }
+
+        // Function to log out the user
+        function logout() {
+            netlifyIdentity.logout();
+        }
+
+        // Listen for user login
+        netlifyIdentity.on('login', function(user) {
+            document.getElementById("loginBtn").style.display = "none";
+            document.getElementById("logoutBtn").style.display = "block";
+            document.getElementById("bookingSection").style.display = "block"; // Show booking section
+            alert('Welcome ' + user.user_metadata.full_name);
+        });
+
+        // Listen for user logout
+        netlifyIdentity.on('logout', function() {
+            document.getElementById("loginBtn").style.display = "block";
+            document.getElementById("logoutBtn").style.display = "none";
+            document.getElementById("bookingSection").style.display = "none"; // Hide booking section
+        });
+
+        // Booking Form Submit (Basic Logic)
+        document.getElementById('bookingForm').addEventListener('submit', function(event) {
+            event.preventDefault();
+            alert('Booking successfully made!');
+        });
+
+        // Function to add a post
+        function addPost(event) {
+            event.preventDefault();
+            var title = document.getElementById('postTitle').value;
+            var content = document.getElementById('postContent').value;
+
+            var postDiv = document.createElement('div');
+            postDiv.classList.add('post');
+            postDiv.innerHTML = `<h3>${title}</h3><p>${content}</p>`;
+            document.getElementById('postList').appendChild(postDiv);
+            document.getElementById('postForm').reset();
+        }
+
+        // Chatbot functionality
+        function openChatbot() {
+            document.getElementById('chatbot').style.display = 'block';
+        }
+
+        function closeChatbot() {
+            document.getElementById('chatbot').style.display = 'none';
+        }
+
+        function sendMessage() {
+            var input = document.getElementById('userInput');
+            var message = input.value.trim();
+            if (message) {
+                var userMessageDiv = document.createElement('div');
+                userMessageDiv.classList.add('user-message');
+                userMessageDiv.innerText = message;
+                document.getElementById('chatbot-messages').appendChild(userMessageDiv);
+                input.value = '';
+
+                var botMessageDiv = document.createElement('div');
+                botMessageDiv.classList.add('bot-message');
+                botMessageDiv.innerText = "Thank you for your message! We will get back to you soon.";
+                document.getElementById('chatbot-messages').appendChild(botMessageDiv);
+            }
+        }
+
+        // Modal functions
+        var modal = document.getElementById("popupForm");
+        function openModal() {
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            modal.style.display = "none";
+        }
+
+        window.onclick = function(event) {
+            if (event.target == modal) {
+                closeModal();
+            }
+        };
+
+        // Contact form submission
+        function submitContactForm(event) {
+            event.preventDefault();
+            alert('Contact form submitted!');
+            closeModal();
+        }
+    </script>
+</body>
+</html>
